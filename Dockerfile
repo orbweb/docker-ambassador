@@ -1,10 +1,9 @@
 FROM		alpine:3.3
 MAINTAINER	Orbweb Inc. <engineering@orbweb.com>
 
-RUN 		apk update && \
-			apk add socat && \
-			rm -r /var/cache/
+COPY        run.sh /bin/run.sh
+RUN         apk --no-cache add \
+                socat && \
+            chmod +x /bin/run.sh
 
-ADD 		run.sh /bin/run.sh
-
-ENTRYPOINT 	["/bin/run.sh"]
+ENTRYPOINT  ["/bin/run.sh"]
