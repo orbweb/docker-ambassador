@@ -8,12 +8,12 @@ if [ "$1" == "" ]; then
 		exit 1
 	fi
 
-	cmd=$(env | grep _TCP= | sed 's/.*_PORT_\([0-9]*\)_TCP=tcp:\/\/\(.*\):\(.*\)/socat -t 100000000 TCP4-LISTEN:\1,fork,reuseaddr TCP4:\2:\3 \&/')
+	cmd=$(env | grep _TCP= | sed 's/.*_PORT_\([0-9]*\)_TCP=tcp:\/\/\(.*\):\(.*\)/socat -d -d -t 100000000 TCP4-LISTEN:\1,fork,reuseaddr TCP4:\2:\3 \&/')
 	cmd="$cmd wait"
 
 	echo Connecting to $exposedlinks...
 	echo "$cmd" | exec sh
 else
 	echo Connecting to $1:$2...
-	exec socat -t 100000000 TCP4-LISTEN:$2,fork,reuseaddr TCP4:$1:$2
+	exec socat -d -d -t 100000000 TCP4-LISTEN:$2,fork,reuseaddr TCP4:$1:$2
 fi
